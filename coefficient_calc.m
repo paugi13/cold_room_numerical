@@ -7,7 +7,6 @@ aw = zeros(total_nod, 1);
 ae = zeros(total_nod, 1);
 bp = zeros(total_nod, 1);
 
-
 % First conductivity constants must be calculated
 % Critical nodes: Boundaries 
 %   nod_reforc_1(1), nod_reforc_1(end), nod_poli(end), nod_reforc_2(end),
@@ -74,8 +73,11 @@ ae(nod_poma(1)) = 0.5115/(d_PE);
 ap(nod_poma(1)) = ae(1) + alpha_air + p(nod_poma(1))*cp*(d_PE/2)/inc_t;
 bp(nod_poma(1)) = alpha_air*Text + p(nod_poma(1))*cp*(d_PE/2)*T(nod_poma(1))/inc_t;
 
-
-
+% Last apple node: Adiabatic end is assumed because of symmetric conditions
+aw(nod_poma(end)) = 0;
+ae(nod_poma(end)) = 1;
+ap(nod_poma(end)) = 1;
+bp(nod_poma(end)) = 0;
 
 
 % aigua = 0.84*(0.57109+0.0017625*T-0.0000067036*T^2);
