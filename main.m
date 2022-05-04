@@ -53,13 +53,14 @@ T(1,:) = T_inic;
 
 
 %% Calculating coefficients ([W/K])
-
+% 
 i = inc_t;
 j = 1;
 
 while i<=t_max
     [ap,ae, aw, bp] = coefficient_calc(coord_total, total_nod, alpha_ext, alpha_air ,T(j,:), nod_reforc_1, nod_poli, nod_reforc_2, nod_poma, inc_t);
-    [P,R] = matrix_elements(ap,ae, aw, bp, n);
+    [P,R] = matrix_elements(ap,ae, aw, bp, total_el);
     T(j+1,:) = temp_field_calc(P, R, n);
+    
 end
 
