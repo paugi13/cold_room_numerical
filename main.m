@@ -12,6 +12,7 @@ l_palot = 0.5;
 T_ext = 15;
 alpha_ext = 10;
 alpha_air = 10;
+h = 2.4;    % Height
 
 %% Numerical
 t_inic = 0;
@@ -69,3 +70,13 @@ while i<=t_max
     T_air = T_air - 0.00833*inc_t;
 end
 
+
+% Postprocessing
+y = zeros(total_nod, 1);
+
+for i = 1:total_nod
+    y(i) = h;
+end
+% 
+figure
+imagesc(T(20,:));
