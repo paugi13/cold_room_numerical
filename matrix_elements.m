@@ -1,5 +1,4 @@
-function [P,R] = matrix_elements(ap,ae, aw, bp, total_nod)
-
+function [P,R] = matrix_elements(ap,ae, aw, bp, total_nod, nod_poma)
 % Critical nodes: Boundaries 
 %   nod_reforc_1(1), nod_reforc_1(end), nod_poli(end), nod_reforc_2(end),
 %   nod_poma(1), nod_poma(end)
