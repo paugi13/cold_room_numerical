@@ -48,19 +48,24 @@ nod_poma = (n_nod_reforc_n+1+n_nod_poli_n+n_nod_reforc_n-1):1:...
 
 T = zeros(t_max/inc_t+1, total_nod);
 
+% Everything starts at 15ºC.
 T_inic = T_ext;
+T_air = T_ext-0.00833*inc_t;
 T(1,:) = T_inic;
 
 
 %% Calculating coefficients ([W/K])
 % 
 i = inc_t;
-j = 1;
+j = 2;
 
 while i<=t_max
-    [ap,ae, aw, bp] = coefficient_calc(coord_total, total_nod, alpha_ext, alpha_air ,T(j,:), nod_reforc_1, nod_poli, nod_reforc_2, nod_poma, inc_t);
+    [ap,ae, aw, bp] = coefficient_calc(coord_total, total_nod, alpha_ext, ...
+        alpha_air, T, nod_reforc_1, nod_poli, nod_reforc_2, nod_poma, inc_t, T_ext, T_air);
     [P,R] = matrix_elements(ap,ae, aw, bp, total_el);
-    T(j+1,:) = temp_field_calc(P, R, n);
-    
+    T(j,:) = temp_field_calc(P, R, n);
+    i = i + inc_t;
+    j = j + 1;
+    T_air = T_air - 0.00833*inc_t;
 end
 
