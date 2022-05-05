@@ -61,8 +61,8 @@ j = 2;
 
 while i<=t_max
     [ap,ae, aw, bp] = coefficient_calc(coord_total, total_nod, alpha_ext, ...
-        alpha_air, T, nod_reforc_1, nod_poli, nod_reforc_2, nod_poma, inc_t, T_ext, T_air);
-    [P,R] = matrix_elements(ap,ae, aw, bp, total_el);
+        alpha_air, T, nod_reforc_1, nod_poli, nod_reforc_2, nod_poma, inc_t, T_ext, T_air, j);
+    [P,R] = matrix_elements(ap,ae, aw, bp, total_nod, nod_poma);
     T(j,:) = temp_field_calc(P, R, total_nod);
     i = i + inc_t;
     j = j + 1;
