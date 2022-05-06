@@ -47,11 +47,13 @@ nod_poma = (n_nod_reforc_n+1+n_nod_poli_n+n_nod_reforc_n-1):1:...
 [coord_total] = ...
     node_coord(nod_reforc_1,nod_poli, nod_reforc_2, nod_poma, ax_reforc, ax_poli, ax_poma, l_air, total_nod);
 
-T = zeros(t_max/inc_t+1, total_nod);
-
+T = zeros(t_max/inc_t+2, total_nod);
+T_air_vector = zeros(t_max/inc_t+2, 1);
+T_air_vector(1,1) = T_ext;
 % Everything starts at 15ºC.
 T_inic = T_ext;
 T_air = T_ext-0.00833*inc_t;
+T_air_vector(2,1) = T_air;
 T(1,:) = T_inic;
 
 
@@ -65,18 +67,30 @@ while i<=t_max
         alpha_air, T, nod_reforc_1, nod_poli, nod_reforc_2, nod_poma, inc_t, T_ext, T_air, j);
     [P,R] = matrix_elements(ap,ae, aw, bp, total_nod, nod_poma);
     T(j,:) = temp_field_calc(P, R, total_nod);
+    T_air = T_air - 0.00833*inc_t;
+    T_air_vector(j+1,1) = T_air;
     i = i + inc_t;
     j = j + 1;
-    T_air = T_air - 0.00833*inc_t;
 end
 
 
-% Postprocessing
-y = zeros(total_nod, 1);
+%% POSTPROCESSING
 
-for i = 1:total_nod
-    y(i) = h;
-end
-% 
+y = [0 2.4];
+
+% T_air must be included in the 
+T_plot = zeros(size(T,1), size(T,2)+1);
+T_plot(:,1:nod_reforc_2(end)) = T(:, 1:nod_reforc_2(end));
+T_plot(:, nod_reforc_2(end)+1) = T_air_vector;
+T_plot(:, nod_reforc_2(end)+2:end) = T(:, nod_poma(1):end);
+
+[X,Y] = meshgrid(coord_total,y);
 figure
-imagesc(T(20,:));
+surf(X,Y, zeros(size(X)),T_plot(2,2:end), 'edgecolor','none');
+colorbar
+xlabel('x [m]');
+ylabel('y [m]');
+% shading interp
+
+% figure
+% imagesc(coord_total, [0 2.4], T(20,:));
