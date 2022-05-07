@@ -8,6 +8,7 @@ aw = zeros(total_nod, 1);
 ae = zeros(total_nod, 1);
 bp = zeros(total_nod, 1);
 
+% Thermophysical properties are defined here instead.
 % Lambda values
 lambda_poma = 0.5115;
 lambda_poli = 0.028;
@@ -84,21 +85,21 @@ d_PE = coord_total(1,2)-coord_total(1,1);
 aw(1) = 0;
 ae(1) = lambda_alu/(d_PE);
 ap(1) = ae(1) + alpha_ext + p_alu*cp_alu*(d_PE/2)/inc_t;
-bp(1) = alpha_ext*T_ext + p_alu*cp_alu*(d_PE/2)*T(1)/inc_t;
+bp(1) = alpha_ext*T_ext + p_alu*cp_alu*(d_PE/2)*T(j-1,1)/inc_t;
 
 %Last reforc node
 d_PW = coord_total(1,nod_reforc_2(end))-coord_total(1,nod_reforc_2(end)-1);
 aw(nod_reforc_2(end)) = lambda_alu/(coord_total(1,2)-coord_total(1,1));
 ae(nod_reforc_2(end)) = 0;
 ap(nod_reforc_2(end)) = aw(nod_reforc_2(end)) + alpha_air + p_alu*cp_alu*(d_PW/2)/inc_t;
-bp(nod_reforc_2(end)) = alpha_air*T_air + p_alu*cp_alu*(d_PE/2)*T(nod_reforc_2(end))/inc_t;
+bp(nod_reforc_2(end)) = alpha_air*T_air + p_alu*cp_alu*(d_PE/2)*T(j-1, nod_reforc_2(end))/inc_t;
 
 % First apple node
 d_PE = coord_total(1,nod_poma(1)+1)-coord_total(1,nod_poma(1));
 aw(nod_poma(1)) = 0;
 ae(nod_poma(1)) = lambda_poma/(d_PE);
 ap(nod_poma(1)) = ae(nod_poma(1)) + alpha_air + p_poma*cp_poma*(d_PE/2)/inc_t;
-bp(nod_poma(1)) = alpha_air*T_air + p_poma*cp_poma*(d_PE/2)*T(nod_poma(1))/inc_t;
+bp(nod_poma(1)) = alpha_air*T_air + p_poma*cp_poma*(d_PE/2)*T(j-1, nod_poma(1))/inc_t;
 
 % Last apple node: Adiabatic end is assumed because of symmetric conditions
 aw(nod_poma(end)) = 1;
