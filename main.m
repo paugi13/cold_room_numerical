@@ -16,7 +16,8 @@ h = 2.4;    % Height
 
 %% Numerical
 t_inic = 0;
-t_max = 1800;
+n_hours = 24;
+t_max = n_hours*3600;
 inc_t = 60;
 n_el_poma = 100;
 n_el_poli = 100;
@@ -68,6 +69,10 @@ while i<=t_max
     [P,R] = matrix_elements(ap,ae, aw, bp, total_nod, nod_poma);
     T(j,:) = temp_field_calc(P, R, total_nod);
     T_air = T_air - 0.00833*inc_t;
+    % Once T_air reaches 0 degrees it must maintain at that value
+    if T_air < 0
+        T_air = 0;
+    end
     T_air_vector(j+1,1) = T_air;
     i = i + inc_t;
     j = j + 1;
@@ -85,11 +90,15 @@ T_plot(:, nod_reforc_2(end)+1) = T_air_vector;
 T_plot(:, nod_reforc_2(end)+2:end) = T(:, nod_poma(1):end);
 
 [X,Y] = meshgrid(coord_total,y);
+
 figure
-surf(X,Y, zeros(size(X)),T_plot(2,2:end), 'edgecolor','none');
+surf(X,Y, zeros(size(X)),T_plot(100,2:end), 'edgecolor','none');
 colorbar
 xlabel('x [m]');
 ylabel('y [m]');
+title('Mapa de temperatures');
+xlim([0 3.22]);
+ylim([0 2.4]);
 % shading interp
 
 % figure
