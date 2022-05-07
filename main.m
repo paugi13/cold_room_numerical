@@ -92,7 +92,7 @@ T_plot(:, nod_reforc_2(end)+2:end) = T(:, nod_poma(1):end);
 [X,Y] = meshgrid(coord_total,y);
 
 figure
-surf(X,Y, zeros(size(X)),T_plot(100,2:end), 'edgecolor','none');
+surf(X,Y, zeros(size(X)),T_plot(500,2:end), 'edgecolor','none');
 colorbar
 xlabel('x [m]');
 ylabel('y [m]');
