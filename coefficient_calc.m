@@ -34,67 +34,81 @@ cp_poma = 3.7628e+03;
 for i = 2:(size(coord_total,2)-1)
 lambda_e = 0;
 lambda_w = 0;
-
-    if i < nod_reforc_1(end)
-        lambda_w = lambda_alu;
-        lambda_e = lambda_poli;
-        p = p_alu;
-        cp = cp_alu;
-    elseif i == nod_reforc_1(end)
-        lambda_w = lambda_alu;
-        lambda_e = lambda_poli;
-        p = (p_alu + p_poli)/2;
-    elseif i < nod_poli(end)
-        lambda_w = lambda_poli;
-        lambda_e = lambda_poli;
-        p = p_poli;
-        cp = cp_poli;
-    elseif i == nod_poli(end)
-        lambda_w = lambda_poli;
-        lambda_e = lambda_alu;
-        p = (p_poli + p_alu)/2;
-    elseif i < nod_reforc_2(end)
-        lambda_w = lambda_alu;
-        lambda_e = lambda_alu;
-        p = p_alu;
-        cp = cp_alu;
-    elseif i == nod_reforc_2(end)
-        lambda_w = lambda_alu;
-        p = p_alu;
-    elseif i == nod_poma(1)
-        lambda_e = lambda_poma;
-        p = p_poma;
-    elseif i < nod_poma(end)
-        lambda_w = lambda_poma;
-        lambda_e = lambda_poma;
-        p = p_poma;
-        cp = cp_poma;
-    end
-    d_PW = coord_total(1,i)-coord_total(1,i-1);
-    d_PE = coord_total(1,i+1)-coord_total(1,i);
-    aw(i) = lambda_w/d_PW;
-    ae(i) = lambda_e/d_PE;
-    ap(i) = ae(i) + aw(i) + p*cp*(d_PW/2+d_PE/2)/inc_t;
-    bp(i) = T(j-1,i)*p*cp*(d_PW/2+d_PE/2)/inc_t;
+    
+% Specific calculus for nodes at material borders
+if i == nod_reforc_1(end) || i == nod_poli(end)
+        if i == nod_reforc_1(end)
+            lambda_w = lambda_alu;
+            lambda_e = lambda_poli;
+            p1 = p_alu;
+            p2 = p_poli;
+            cp1 = cp_alu;
+            cp2 = cp_poli;
+        else
+            lambda_w = lambda_poli;
+            lambda_e = lambda_alu;
+            p1 = p_poli;
+            p2 = p_alu;
+            cp1 = cp_poli;
+            cp2 = cp_alu;
+        end
+        d_PW = coord_total(1,i)-coord_total(1,i-1);
+        d_PE = coord_total(1,i+1)-coord_total(1,i);
+        ap(i) = ae(i) + aw(i) + ((p1*cp1*d_PW/2)+(p2*cp2*d_PE/2))/inc_t;
+        bp(i) = T(j-1,i)*((p1*cp1*d_PW/2)+(p2*cp2*d_PE/2))/inc_t;
+        aw(i) = lambda_w/d_PW;
+        ae(i) = lambda_e/d_PE;
+        
+% Normal nodes with only one material
+elseif i < nod_reforc_1(end) || i < nod_poli(end) || i < nod_reforc_2(end)|| ...
+            i < nod_poma(end) 
+        if i < nod_reforc_1(end)
+            lambda_w = lambda_alu;
+            lambda_e = lambda_alu;
+            p = p_alu;
+            cp = cp_alu;
+        elseif i < nod_poli(end)
+            lambda_w = lambda_poli;
+            lambda_e = lambda_poli;
+            p = p_poli;
+            cp = cp_poli;
+        elseif i < nod_reforc_2(end)
+            lambda_w = lambda_alu;
+            lambda_e = lambda_alu;
+            p = p_alu;
+            cp = cp_alu;
+        elseif i < nod_poma(end)
+            lambda_w = lambda_poma;
+            lambda_e = lambda_poma;
+            p = p_poma;
+            cp = cp_poma;
+        end
+        d_PW = coord_total(1,i)-coord_total(1,i-1);
+        d_PE = coord_total(1,i+1)-coord_total(1,i);
+        aw(i) = lambda_w/d_PW;
+        ae(i) = lambda_e/d_PE;
+        ap(i) = ae(i) + aw(i) + p*cp*(d_PW/2+d_PE/2)/inc_t;
+        bp(i) = T(j-1,i)*p*cp*(d_PW/2+d_PE/2)/inc_t;
 end
 
+end
 
 %% Nodes with convection flow
-% First node
+% First node -> nod_reforc_1(1)
 d_PE = coord_total(1,2)-coord_total(1,1);
 aw(1) = 0;
 ae(1) = lambda_alu/(d_PE);
 ap(1) = ae(1) + alpha_ext + p_alu*cp_alu*(d_PE/2)/inc_t;
 bp(1) = alpha_ext*T_ext + p_alu*cp_alu*(d_PE/2)*T(j-1,1)/inc_t;
 
-%Last reforc node
+%Last reforc node -> nod_reforc_2(end)
 d_PW = coord_total(1,nod_reforc_2(end))-coord_total(1,nod_reforc_2(end)-1);
 aw(nod_reforc_2(end)) = lambda_alu/(coord_total(1,2)-coord_total(1,1));
 ae(nod_reforc_2(end)) = 0;
 ap(nod_reforc_2(end)) = aw(nod_reforc_2(end)) + alpha_air + p_alu*cp_alu*(d_PW/2)/inc_t;
 bp(nod_reforc_2(end)) = alpha_air*T_air + p_alu*cp_alu*(d_PE/2)*T(j-1, nod_reforc_2(end))/inc_t;
 
-% First apple node
+% First apple node -> nod_poma(1)
 d_PE = coord_total(1,nod_poma(1)+1)-coord_total(1,nod_poma(1));
 aw(nod_poma(1)) = 0;
 ae(nod_poma(1)) = lambda_poma/(d_PE);
