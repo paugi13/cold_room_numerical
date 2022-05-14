@@ -51,7 +51,7 @@ nod_poma = (n_nod_reforc_n+1+n_nod_poli_n+n_nod_reforc_n-1):1:...
 [coord_total] = ...
     node_coord(nod_reforc_1,nod_poli, nod_reforc_2, nod_poma, ax_reforc, ax_poli, ax_poma, l_air, total_nod);
 
-%% Calculating coefficients ([W/K])
+%% Calculating coefficients ([W/K]) and solving
 
 T = zeros(1, total_nod);
 
@@ -80,7 +80,9 @@ ylabel('y [m]');
 title('Mapa de temperatures');
 xlim([0 3.22]);
 ylim([0 2.4]);
+view(0,90);
 colorbar
+
 % shading interp
 
 % figure
