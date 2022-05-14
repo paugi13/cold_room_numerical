@@ -99,6 +99,7 @@ ylabel('y [m]');
 title('Mapa de temperatures');
 xlim([0 3.22]);
 ylim([0 2.4]);
+view(0,90);
 % shading interp
 
 % figure
