@@ -103,10 +103,10 @@ bp(1) = alpha_ext*T_ext + p_alu*cp_alu*(d_PE/2)*T(j-1,1)/inc_t;
 
 %Last reforc node -> nod_reforc_2(end)
 d_PW = coord_total(1,nod_reforc_2(end))-coord_total(1,nod_reforc_2(end)-1);
-aw(nod_reforc_2(end)) = lambda_alu/(coord_total(1,2)-coord_total(1,1));
+aw(nod_reforc_2(end)) = lambda_alu/d_PW;
 ae(nod_reforc_2(end)) = 0;
 ap(nod_reforc_2(end)) = aw(nod_reforc_2(end)) + alpha_air + p_alu*cp_alu*(d_PW/2)/inc_t;
-bp(nod_reforc_2(end)) = alpha_air*T_air + p_alu*cp_alu*(d_PE/2)*T(j-1, nod_reforc_2(end))/inc_t;
+bp(nod_reforc_2(end)) = alpha_air*T_air + p_alu*cp_alu*(d_PW/2)*T(j-1, nod_reforc_2(end))/inc_t;
 
 % First apple node -> nod_poma(1)
 d_PE = coord_total(1,nod_poma(1)+1)-coord_total(1,nod_poma(1));
