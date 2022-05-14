@@ -83,6 +83,11 @@ ylim([0 2.4]);
 view(0,90);
 colorbar
 
+figure
+plot(coord_total, T_plot(1,2:end), 'b');
+xlabel('Coordenada x [m]');
+ylabel('Temperatura [ºC]');
+title('Linealitat distribució');
 % shading interp
 
 % figure
