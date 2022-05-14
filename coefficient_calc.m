@@ -54,10 +54,10 @@ if i == nod_reforc_1(end) || i == nod_poli(end)
         end
         d_PW = coord_total(1,i)-coord_total(1,i-1);
         d_PE = coord_total(1,i+1)-coord_total(1,i);
-        ap(i) = ae(i) + aw(i) + ((p1*cp1*d_PW/2)+(p2*cp2*d_PE/2))/inc_t;
-        bp(i) = T(j-1,i)*((p1*cp1*d_PW/2)+(p2*cp2*d_PE/2))/inc_t;
         aw(i) = lambda_w/d_PW;
         ae(i) = lambda_e/d_PE;
+        ap(i) = ae(i) + aw(i) + ((p1*cp1*d_PW/2)+(p2*cp2*d_PE/2))/inc_t;
+        bp(i) = T(j-1,i)*((p1*cp1*d_PW/2)+(p2*cp2*d_PE/2))/inc_t;
         
 % Normal nodes with only one material
 elseif i < nod_reforc_1(end) || i < nod_poli(end) || i < nod_reforc_2(end)|| ...
