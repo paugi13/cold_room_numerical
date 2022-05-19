@@ -16,7 +16,7 @@ h = 2.4;    % Height
 
 %% Numerical
 t_inic = 0;
-n_hours = 24;
+n_hours = 360;
 t_max = n_hours*3600;
 inc_t = 60;
 n_el_poma = 100;
@@ -93,7 +93,7 @@ T_plot(:, nod_reforc_2(end)+2:end) = T(:, nod_poma(1):end);
 [X,Y] = meshgrid(coord_total,y);
 
 figure
-surf(X,Y, zeros(size(X)),T_plot(1440,2:end), 'edgecolor','none');
+surf(X,Y, zeros(size(X)),T_plot(,2:end), 'edgecolor','none');
 colorbar
 xlabel('x [m]');
 ylabel('y [m]');
