@@ -8,7 +8,7 @@
 l_air = 2.5;
 l_poli = 0.2;
 l_reforc = 0.01;
-l_palot = 0.5;
+l_palot = 0.7;
 T_ext = 15;
 alpha_ext = 10;
 alpha_air = 10;
@@ -16,7 +16,7 @@ h = 2.4;    % Height
 
 %% Numerical
 t_inic = 0;
-n_hours = 360;
+n_hours = 24*7;
 t_max = n_hours*3600;
 inc_t = 60;
 n_el_poma = 100;
@@ -93,11 +93,11 @@ T_plot(:, nod_reforc_2(end)+2:end) = T(:, nod_poma(1):end);
 [X,Y] = meshgrid(coord_total,y);
 
 figure
-surf(X,Y, zeros(size(X)),T_plot(21600,2:end), 'edgecolor','none');
+surf(X,Y, zeros(size(X)),T_plot(end-1,2:end), 'edgecolor','none');
 colorbar
 xlabel('x [m]');
 ylabel('y [m]');
-title('24 hores');
+title('1 setmana');
 xlim([0 3.22]);
 ylim([0 2.4]);
 view(0,90);
