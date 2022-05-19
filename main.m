@@ -48,6 +48,7 @@ nod_poma = (n_nod_reforc_n+1+n_nod_poli_n+n_nod_reforc_n-1):1:...
 [coord_total] = ...
     node_coord(nod_reforc_1,nod_poli, nod_reforc_2, nod_poma, ax_reforc, ax_poli, ax_poma, l_air, total_nod);
 
+%Get to 0º in half an hour
 T = zeros(t_max/inc_t+2, total_nod);
 T_air_vector = zeros(t_max/inc_t+2, 1);
 T_air_vector(1,1) = T_ext;
@@ -92,15 +93,11 @@ T_plot(:, nod_reforc_2(end)+2:end) = T(:, nod_poma(1):end);
 [X,Y] = meshgrid(coord_total,y);
 
 figure
-surf(X,Y, zeros(size(X)),T_plot(500,2:end), 'edgecolor','none');
+surf(X,Y, zeros(size(X)),T_plot(1440,2:end), 'edgecolor','none');
 colorbar
 xlabel('x [m]');
 ylabel('y [m]');
-title('Mapa de temperatures');
+title('24 hores');
 xlim([0 3.22]);
 ylim([0 2.4]);
 view(0,90);
-% shading interp
-
-% figure
-% imagesc(coord_total, [0 2.4], T(20,:));
