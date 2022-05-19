@@ -116,7 +116,8 @@ ap(nod_poma(1)) = ae(nod_poma(1)) + alpha_air + p_poma*cp_poma*(d_PE/2)/inc_t;
 bp(nod_poma(1)) = alpha_air*T_air + p_poma*cp_poma*(d_PE/2)*T(j-1, nod_poma(1))/inc_t;
 
 % Last apple node: Adiabatic end is assumed because of symmetric conditions
-aw(nod_poma(end)) = 1;
+d_PW = coord_total(1,nod_poma(end))-coord_total(1,nod_poma(end)-1);
+aw(nod_poma(end)) = lambda_poma/(d_PW);
 ae(nod_poma(end)) = 0;
-ap(nod_poma(end)) = 1;
-bp(nod_poma(end)) = 0;
+ap(nod_poma(end)) = p_poma*cp_poma*(d_PW/2)/inc_t + aw(nod_poma(end));
+bp(nod_poma(end)) = p_poma*cp_poma*(d_PW/2)*T(j-1, nod_poma(end))/inc_t;
