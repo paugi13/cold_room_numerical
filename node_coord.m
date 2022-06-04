@@ -1,4 +1,5 @@
-function [coord_total] = node_coord(nod_reforc_1,nod_poli, nod_reforc_2, nod_poma, ax_reforc, ax_poli, ax_poma, l_air, total_nod)
+function [coord_total] = node_coord(nod_reforc_1,nod_poli, nod_reforc_2,...
+    nod_poma, ax_reforc, ax_poli, ax_poma, l_air, total_nod)
 % Sets coordinates for every registered node in the mesh.
 
 coord_reforc_1 = zeros(1,size(nod_reforc_1,2));

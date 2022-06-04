@@ -40,13 +40,15 @@ total_nod = n_nod_poma_n + n_nod_poli_n + n_nod_reforc_n*2-1;
 
 nod_reforc_1 = 1:1:n_nod_reforc_n;
 nod_poli = (n_nod_reforc_n+1):1:(n_nod_reforc_n+1+n_nod_poli_n-1);
-nod_reforc_2 = (n_nod_reforc_n+1+n_nod_poli_n):1:(n_nod_reforc_n+1+n_nod_poli_n+n_nod_reforc_n-2);
+nod_reforc_2 = (n_nod_reforc_n+1+n_nod_poli_n):1:...
+    (n_nod_reforc_n+1+n_nod_poli_n+n_nod_reforc_n-2);
 nod_poma = (n_nod_reforc_n+1+n_nod_poli_n+n_nod_reforc_n-1):1:...
     (n_nod_reforc_n+1+n_nod_poli_n+n_nod_reforc_n+n_nod_poma_n-2);
 
 %% Setting node coordinates
 [coord_total] = ...
-    node_coord(nod_reforc_1,nod_poli, nod_reforc_2, nod_poma, ax_reforc, ax_poli, ax_poma, l_air, total_nod);
+    node_coord(nod_reforc_1,nod_poli, nod_reforc_2, nod_poma, ax_reforc,...
+    ax_poli, ax_poma, l_air, total_nod);
 
 %Get to 0º in half an hour
 T = zeros(t_max/inc_t+2, total_nod);
@@ -66,7 +68,8 @@ j = 2;
 
 while i<=t_max
     [ap,ae, aw, bp] = coefficient_calc(coord_total, total_nod, alpha_ext, ...
-        alpha_air, T, nod_reforc_1, nod_poli, nod_reforc_2, nod_poma, inc_t, T_ext, T_air, j);
+        alpha_air, T, nod_reforc_1, nod_poli, nod_reforc_2, nod_poma, ...
+        inc_t, T_ext, T_air, j);
     [P,R] = matrix_elements(ap,ae, aw, bp, total_nod, nod_poma);
     T(j,:) = temp_field_calc(P, R, total_nod);
     T_air = T_air - 0.00833*inc_t;
